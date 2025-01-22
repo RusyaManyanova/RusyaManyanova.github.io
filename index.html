@@ -9,7 +9,7 @@
     <a-scene>
       <a-sky color="#ECECEC"></a-sky>
       
-      <!-- Пол -->
+      <! - Пол -->
       <a-plane position="0 0 -4" rotation="-90 0 0" width="10" height="10" color="#7BC8A4"></a-plane>
       
       <!-- Камера и контроллер -->
@@ -21,45 +21,25 @@
       <a-cylinder position="0 0.75 -5" radius="0.5" height="1.5" color="#FFC65D" collectible></a-cylinder>
       
       <!-- Текст для отображения счета -->
-      <a-text id="scoreText" value="Score: 0" position="-1.5 2.5 -5" color="black"></a-text>
+      <a-text value="Score: 0" position="-1.5 2.5 -5" color-"black"></a-text>
       
       <!-- Таймер -->
       <a-text id="timer" value="Time: 60" position="1.5 2.5 -5" color="black"></a-text> 
       
     </a-scene>
-
     <script>
     AFRAME.registerComponent('collectible', { 
-      init: function () {
-        // Слушаем событие столкновения
-        this.el.addEventListener('collide', (event) => {
-          // Проверяем, что столкновение произошло с камерой (игроком)
-          if (event.detail.body.el.id === 'camera') {
-            // Удаление объекта
-            this.el.parentNode.removeChild(this.el);
-
-            // Обновление счета
-            let scoreElement = document.querySelector('#scoreText'); 
-            let score = parseInt(scoreElement.getAttribute('value').split(': ')[1]) + 1; 
-            scoreElement.setAttribute('value', 'Score: ' + score);
-          }
-        });
-      }
+  init: function () {
+    this.el.addEventListener('click', () => {
+      // Удаление объекта
+      this.el.parentNode.removeChild(this.el);
+      // Обновление счета
+      let scoreElement = document.querySelector('[text＿value="Score: "]'); 
+      let score = parseInt(scoreElement.getAttribute('text').value.split(': ')[1]) + 1; 
+      scoreElement.setAttribute('text', { value: 'Score: ' + score });
+     });
+  }
     });
     </script> 
-
-    <script>
-    // Добавляем физику к сцене
-    AFRAME.registerComponent('physics', {
-      init: function () {
-        this.el.setAttribute('collision-filter', 'group: player; collide: collectible');
-        this.el.setAttribute('dynamic-body', '');
-      }
-    });
-    
-    // Применяем физику к камере
-    document.querySelector('[camera]').setAttribute('physics', '');
-    </script>
-
   </body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+s<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -22,19 +22,19 @@
       <a-text id="timer" value="Time: 60" position="1.5 2.5 -5" color="black"></a-text> 
     </a-scene>
     <script>
-      <script>
-      AFRAME.registerComponent("collectible", { 
-    init: function () {
-      this.el.addEventListener('click', () => {
-        // Удаление объекта
-        this.el.parentNode.removeChild(this.el);
-        // Обновление счета
-        let scoreElement = document.querySelector("[text＿value="Score: "]'); 
-        let score = parseInt(scoreElement.getAttribute('text').value.split(': ')[1]) + 1; 
-        scoreElement.setAttribute('text', { value: 'Score: ' + score });
-      });
+    AFRAME.registerComponent("collectible", { 
+  init: function () {
+    this.el.addEventListener('click', () => {
+      // Удаление объекта
+      this.el.parentNode.removeChild(this.el);
+      // Обновление счета
+      let scoreElement = document.querySelector("[text＿value="Score: "]'); 
+      let score = parseInt(scoreElement.getAttribute('text').value.split(': ')[1]) + 1; 
+      scoreElement.setAttribute('text', { value: 'Score: ' + score });
+     });
     }
   });
+      
     </script> 
   </body>
 </html>

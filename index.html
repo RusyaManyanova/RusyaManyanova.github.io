@@ -9,7 +9,7 @@
     <a-scene>
       <a-sky color="#ECECEC"></a-sky>
       
-      <! - Пол -->
+      <!-- Пол -->
       <a-plane position="0 0 -4" rotation="-90 0 0" width="10" height="10" color="#7BC8A4"></a-plane>
       
       <!-- Камера и контроллер -->
@@ -21,13 +21,14 @@
       <a-cylinder position="0 0.75 -5" radius="0.5" height="1.5" color="#FFC65D" collectible></a-cylinder>
       
       <!-- Текст для отображения счета -->
-      <a-text value="Score: 0" position="-1.5 2.5 -5" color="black"></a-text>
+      <a-text id="score" value="Score: 0" position="-1.5 2.5 -5" color="black"></a-text>
       
       <!-- Таймер -->
       <a-text id="timer" value="Time: 30" position="1.5 2.5 -5" color="black"></a-text> 
       
     </a-scene>
-     <script> 
+
+    <script> 
         // Логика сбора объектов 
         AFRAME.registerComponent('collectible', { 
             init: function () { 
@@ -42,10 +43,10 @@
                 }); 
             } 
         }); 
- 
+
         let timeLeft = 30; // Время игры в секундах 
         let timerElement = document.querySelector('#timer'); 
- 
+
         function updateTimer() { 
             if (timeLeft > 0) { 
                 timeLeft--; 
@@ -54,14 +55,14 @@
                 endGame(); 
             } 
         } 
- 
+
         setInterval(updateTimer, 1000); 
- 
+
         function endGame() { 
             let finalScore = parseInt(document.querySelector('#score').getAttribute('value').split(': ')[1]); 
             alert('Game Over! Your final score is: ' + finalScore); 
- 
-            // Перезапуск игры 
+
+            // Перезапуск игры (можно убрать, если не нужно)
             location.reload(); 
         } 
     </script>

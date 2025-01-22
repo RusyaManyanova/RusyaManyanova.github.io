@@ -22,19 +22,18 @@ s<!DOCTYPE html>
       <a-text id="timer" value="Time: 60" position="1.5 2.5 -5" color="black"></a-text> 
     </a-scene>
     <script>
-    AFRAME.registerComponent("collectible", { 
+    AFRAME.registerComponent('collectible', { 
   init: function () {
     this.el.addEventListener('click', () => {
       // Удаление объекта
       this.el.parentNode.removeChild(this.el);
       // Обновление счета
-      let scoreElement = document.querySelector("[text＿value="Score: "]'); 
+      let scoreElement = document.querySelector('[text＿value="Score: "]'); 
       let score = parseInt(scoreElement.getAttribute('text').value.split(': ')[1]) + 1; 
       scoreElement.setAttribute('text', { value: 'Score: ' + score });
      });
     }
   });
-      
     </script> 
   </body>
 </html>

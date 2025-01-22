@@ -40,8 +40,7 @@
      });
   }
     });
-    </script> 
-    <script>
+
     let timeLeft = 60; // Время игры в секундах
     let timerElement = document.querySelector('#timer');
     function updateTimer() {
@@ -53,8 +52,7 @@
       }
     }
     setInterval(updateTimer, 1000);
-    </script>
-    <script>
+      
     function endGame() {
       let finalScore = parseInt(document.querySelector('[text_value="Score: "]').getAttribute('text').value.split(': ')[1]); 
       alert('Game Over! Your final score is: ' + finalScore);

@@ -54,5 +54,12 @@
     }
     setInterval(updateTimer, 1000);
     </script>
+    <script>
+    function endGame() {
+      let finalScore = parseInt(document.querySelector('[text_value="Score: "]').getAttribute('text').value.split(': ')[1]); 
+      alert('Game Over! Your final score is: ' + finalScore);
+      // Перезапуск игры
+      location.reload();
+    </script>
   </body>
 </html>

@@ -41,5 +41,18 @@
   }
     });
     </script> 
+    <script>
+    let timeLeft = 60; // Время игры в секундах
+    let timerElement = document.querySelector('#timer');
+    function updateTimer() {
+      if (timeLeft > 0) {
+        timeLeft--;
+        timerElement.setAttribute('text', { value: 'Time: ' + timeLeft });
+      } else {
+        endGame();
+      }
+    }
+    setInterval(updateTimer, 1000);
+    </script>
   </body>
 </html>

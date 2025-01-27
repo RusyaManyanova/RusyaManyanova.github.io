@@ -13,7 +13,9 @@
       <a-plane position="0 0 -4" rotation="-90 0 0" width="10" height="10" color="#7BC8A4"></a-plane>
       
       <!-- Камера и контроллер -->
-      <a-entity camera look-controls wasd-controls="acceleration:100" position="0 1.6 0"></a-entity>
+      <a-entity camera look-controls position="0 1.6 0">
+        <a-entity id="cursor" geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03" material="color: black; shader: flat" position="0 0 -1" cursor></a-entity>
+      </a-entity>
       
       <!-- Объекты для сбора -->
       <a-box position="-1 0.5 -3" rotation="0 45 45" color="#4CC3D9" collectible></a-box>
@@ -41,8 +43,8 @@
                     let score = parseInt(scoreElement.getAttribute('value').split(': ')[1]) + 1; 
                     scoreElement.setAttribute('value', 'Score: ' + score); 
                 }); 
-
-                // Для лучшей совместимости с VR можно добавить обработчик на pointerup
+                
+                // Добавляем обработчик на pointerup для VR
                 this.el.addEventListener('pointerup', () => {
                     this.el.parentNode.removeChild(this.el);
                     

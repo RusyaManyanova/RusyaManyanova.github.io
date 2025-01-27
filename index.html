@@ -33,8 +33,8 @@
         AFRAME.registerComponent('collectible', { 
             init: function () { 
                 this.el.addEventListener('click', () => { 
-                    // Удаление объекта из сцены
-                    this.el.parentNode.removeChild(this.el); 
+                    // Установка объекта невидимым
+                    this.el.setAttribute('visible', false); 
  
                     // Обновление счета 
                     let scoreElement = document.querySelector('#score'); 

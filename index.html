@@ -34,6 +34,10 @@
         // Логика сбора объектов 
         AFRAME.registerComponent('collectible', { 
             init: function () { 
+                // Сохранение оригинального цвета
+                this.el.setAttribute('original-color', this.el.getAttribute('color'));
+
+                // Обработка события клика
                 this.el.addEventListener('click', () => { 
                     // Удаление объекта из сцены
                     this.el.parentNode.removeChild(this.el); 

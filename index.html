@@ -19,7 +19,7 @@
       
       <!-- Объекты для сбора -->
       <a-box position="-1 0.5 -3" rotation="0 45 45" color="#4CC3D9" collectible></a-box>
-      <a-sphere position="1 1.25 -5" radius="1.25" color="#EF2D5E" collectible></a-sphere> <!-- Шар -->
+      <a-sphere position="1 1.25 -5" radius="1.25" color="#EF2D5E" collectible></a-sphere>
       <a-cylinder position="0 0.75 -5" radius="0.5" height="1.5" color="#FFC65D" collectible></a-cylinder>
       
       <!-- Текст для отображения счета -->
@@ -34,10 +34,6 @@
         // Логика сбора объектов 
         AFRAME.registerComponent('collectible', { 
             init: function () { 
-                // Сохранение оригинального цвета
-                this.el.setAttribute('original-color', this.el.getAttribute('color'));
-
-                // Обработка события клика
                 this.el.addEventListener('click', () => { 
                     // Удаление объекта из сцены
                     this.el.parentNode.removeChild(this.el); 

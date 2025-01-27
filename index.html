@@ -24,7 +24,7 @@
       <a-text id="score" value="Score: 0" position="-1.5 2.5 -5" color="black"></a-text>
       
       <!-- Таймер -->
-      <a-text id="timer" value="Time: 30" position="1.5 2.5 -5" color="black"></a-text>
+      <a-text id="timer" value="Time: 30" position="1.5 2.5 -5" color="black"></a-text> 
       
     </a-scene>
 
@@ -33,23 +33,14 @@
         AFRAME.registerComponent('collectible', { 
             init: function () { 
                 this.el.addEventListener('click', () => { 
-                    // Анимация исчезновения
-                    this.el.setAttribute('animation', {
-                        property: 'scale',
-                        to: '0 0 0',
-                        dur: 300,
-                        easing: 'easeInOutSine'
-                    });
-                    
-                    // Удаление объекта через 300мс после анимации
-                    setTimeout(() => {
-                        this.el.parentNode.removeChild(this.el); 
-                        // Обновление счета 
-                        let scoreElement = document.querySelector('#score'); 
-                        let score = parseInt(scoreElement.getAttribute('value').split(': ')[1]) + 1; 
-                        scoreElement.setAttribute('value', 'Score: ' + score); 
-                    }, 300);
-                });
+                    // Удаление объекта из сцены
+                    this.el.parentNode.removeChild(this.el); 
+ 
+                    // Обновление счета 
+                    let scoreElement = document.querySelector('#score'); 
+                    let score = parseInt(scoreElement.getAttribute('value').split(': ')[1]) + 1; 
+                    scoreElement.setAttribute('value', 'Score: ' + score); 
+                }); 
             } 
         }); 
 

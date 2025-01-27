@@ -33,7 +33,7 @@
         AFRAME.registerComponent('collectible', { 
             init: function () { 
                 this.el.addEventListener('click', () => { 
-                    // Удаление объекта 
+                    // Удаление объекта из сцены
                     this.el.parentNode.removeChild(this.el); 
  
                     // Обновление счета 

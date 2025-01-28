@@ -12,8 +12,10 @@
       <!-- Пол -->
       <a-plane position="0 0 -4" rotation="-90 0 0" width="100" height="100" src="п.jpg"></a-plane>
       
-      <!-- Камера и контроллеры -->
-      <a-entity id="camera" camera look-controls position="0 1.6 0" wasd-controls></a-entity>
+      <!-- Камера и контроллер -->
+      <a-entity camera look-controls position="0 1.6 0">
+        <a-cursor color="black" fuse="true" fuse-timeout="500"></a-cursor>
+      </a-entity>
       <a-entity id="leftHand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"></a-entity>
       <a-entity id="rightHand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"></a-entity>
       
@@ -33,9 +35,6 @@
 
       <!-- Текст для окончания игры -->
       <a-text id="gameOverText" value="" position="-1 4 -4" color="black"></a-text> 
-
-      <!-- Курсор для взаимодействия -->
-      <a-cursor color="black" fuse="true" fuse-timeout="500"></a-cursor>
       
     </a-scene>
 
@@ -78,60 +77,5 @@
             // location.reload(); 
         } 
     </script>
-
-    <!-- Добавление WASD контроллера -->
-    <script>
-        AFRAME.registerComponent('wasd-controls', {
-            schema: {
-                acceleration: {type: 'number', default: 100}
-            },
-            init: function () {
-                this.direction = new THREE.Vector3();
-                this.velocity = new THREE.Vector3();
-                this.el.sceneEl.addEventListener('enter-vr', () => {
-                    this.el.setAttribute('wasd-controls', 'enabled', false);
-                });
-                this.el.sceneEl.addEventListener('exit-vr', () => {
-                    this.el.setAttribute('wasd-controls', 'enabled', true);
-                });
-            },
-            tick: function (time, timeDelta) {
-                if (!this.data.enabled) return;
-
-                const speed = this.data.acceleration * (timeDelta / 1000);
-                this.direction.set(0, 0, 0);
-
-                if (this.el.sceneEl.is('vr-mode')) {
-                    return; // Disable WASD controls in VR mode
-                }
-
-                if (this.el.sceneEl.is('desktop')) {
-                    if (this.keyW) this.direction.z -= speed;
-                    if (this.keyS) this.direction.z += speed;
-                    if (this.keyA) this.direction.x -= speed;
-                    if (this.keyD) this.direction.x += speed;
-
-                    this.direction.applyEuler(this.el.rotation);
-                    this.velocity.add(this.direction);
-                    this.el.position.add(this.velocity);
-                }
-            }
-        });
-
-        window.addEventListener('keydown', function (event) {
-            if (event.key === 'w') { document.querySelector('#camera').components['wasd-controls'].keyW = true; }
-            if (event.key === 's') { document.querySelector('#camera').components['wasd-controls'].keyS = true; }
-            if (event.key === 'a') { document.querySelector('#camera').components['wasd-controls'].keyA = true; }
-            if (event.key === 'd') { document.querySelector('#camera').components['wasd-controls'].keyD = true; }
-        });
-
-        window.addEventListener('keyup', function (event) {
-            if (event.key === 'w') { document.querySelector('#camera').components['wasd-controls'].keyW = false; }
-            if (event.key === 's') { document.querySelector('#camera').components['wasd-controls'].keyS = false; }
-            if (event.key === 'a') { document.querySelector('#camera').components['wasd-controls'].keyA = false; }
-            if (event.key === 'd') { document.querySelector('#camera').components['wasd-controls'].keyD = false; }
-        });
-    </script>
-
   </body>
 </html>

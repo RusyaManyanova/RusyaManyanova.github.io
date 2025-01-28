@@ -25,6 +25,9 @@
       
       <!-- Таймер -->
       <a-text id="timer" value="Time: 30" position="1.5 2.5 -5" color="black"></a-text> 
+
+      <!-- Текст для окончания игры -->
+      <a-text id="gameOverText" value="" position="0 2 -4" color="red"></a-text> 
       
     </a-scene>
 
@@ -60,10 +63,11 @@
 
         function endGame() { 
             let finalScore = parseInt(document.querySelector('#score').getAttribute('value').split(': ')[1]); 
-            alert('Game Over! Your final score is: ' + finalScore); 
+            let gameOverText = document.querySelector('#gameOverText');
+            gameOverText.setAttribute('value', 'Game Over! Your final score is: ' + finalScore); 
 
             // Перезапуск игры (можно убрать, если не нужно)
-            location.reload(); 
+            // location.reload(); 
         } 
     </script>
   </body>

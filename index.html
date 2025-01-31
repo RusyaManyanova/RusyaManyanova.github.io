@@ -1,85 +1,66 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>VR Mini Game</title>
-     <script src="https://cdn.jsdelivr.net/npm/three@0.146.0/build/three.min.js"></script>
-     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script> 
-     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-system@4.0.1/dist/aframe-physics-system.min.js"></script>
-  </head> 
-  <body>
-    
-    <a-scene physics="debug: true; gravity: -9.8;">
-      
-      <a-sky src="yt.jpg"></a-sky>
-      
-      <!-- Пол с физикой -->
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="100" height="100" src="п.jpg" static-body></a-plane>
-      
-      <!-- Камера и контроллер -->
-      <a-entity camera look-controls wasd-controls position="0 1.6 0">
-        <a-cursor color="black" fuse="true" fuse-timeout="500"></a-cursor>
-      </a-entity>
-      <a-entity id="leftHand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"></a-entity>
-      <a-entity id="rightHand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"></a-entity>
-      
-      <!-- Объекты для сбора с физикой -->
-      <a-box position="-6 5 -3" color="#4CC3D9" collectible dynamic-body="mass: 1;"></a-box>
-      <a-box position="5 5 -2" color="#4CC3D9" collectible dynamic-body="mass: 1;"></a-box>
-      <a-box position="-7 5 -1" color="#4CC3D9" collectible dynamic-body="mass: 1;"></a-box>
-      <a-box position="8 5 -3" color="#4CC3D9" collectible dynamic-body="mass: 1;"></a-box>
-      <a-box position="-1 5 -3" color="#4CC3D9" collectible dynamic-body="mass: 1;"></a-box>
-      <a-box position="-2 5 -4" color="#4CC3D9" collectible dynamic-body="mass: 1;"></a-box>
-      
-      <!-- Текст для отображения счета -->
-      <a-text id="score" value="Score: 0" position="-1.5 2.5 -5" color="black"></a-text>
-      
-      <!-- Таймер -->
-      <a-text id="timer" value="Time: 30" position="1.5 2.5 -5" color="black"></a-text> 
+<head>
+    <title>Custom BufferGeometry</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Инициализация сцены, камеры и рендерера
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
-      <!-- Текст для окончания игры -->
-      <a-text id="gameOverText" value="" position="-1 4 -4" color="black"></a-text> 
-      
-    </a-scene>
+        // 1. Создание кастомной геометрии
+        const geometry = new THREE.BufferGeometry();
 
-    <script> 
-        // Логика сбора объектов 
-        AFRAME.registerComponent('collectible', { 
-            init: function () { 
-                this.el.addEventListener('click', () => { 
-                    // Удаление объекта из сцены
-                    this.el.parentNode.removeChild(this.el); 
- 
-                    // Обновление счета 
-                    let scoreElement = document.querySelector('#score'); 
-                    let score = parseInt(scoreElement.getAttribute('value').split(': ')[1]) + 1; 
-                    scoreElement.setAttribute('value', 'Score: ' + score); 
-                }); 
-            } 
-        }); 
+        // 2. Определение вершин (3 точки x,y,z)
+        const vertices = new Float32Array([
+            0.0, 1.0, 0.0,   // Верхняя вершина
+            -1.0, -1.0, 0.0, // Левая нижняя
+            1.0, -1.0, 0.0   // Правая нижняя
+        ]);
 
-        let timeLeft = 30; // Время игры в секундах 
-        let timerElement = document.querySelector('#timer'); 
+        // 3. Определение цветов для каждой вершины (RGB)
+        const colors = new Float32Array([
+            1, 0, 0, // Красный для верхней
+            0, 1, 0, // Зеленый для левой
+            0, 0, 1  // Синий для правой
+        ]);
 
-        function updateTimer() { 
-            if (timeLeft > 0) { 
-                timeLeft--; 
-                timerElement.setAttribute('value', 'Time: ' + timeLeft); 
-            } else { 
-                endGame(); 
-            } 
-        } 
+        // 4. Настройка атрибутов
+        geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-        setInterval(updateTimer, 1000); 
+        // 5. Создание материала с поддержкой цветов вершин
+        const material = new THREE.MeshBasicMaterial({
+            vertexColors: THREE.VertexColors
+        });
 
-        function endGame() { 
-            let finalScore = parseInt(document.querySelector('#score').getAttribute('value').split(': ')[1]); 
-            let gameOverText = document.querySelector('#gameOverText');
-            gameOverText.setAttribute('value', 'Game Over! Your final score is: ' + finalScore); 
+        // 6. Создание меша
+        const triangle = new THREE.Mesh(geometry, material);
+        scene.add(triangle);
 
-            // Перезапуск игры (можно убрать, если не нужно)
-            // location.reload(); 
-        } 
+        // Настройка камеры
+        camera.position.z = 3;
+
+        // Анимация
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Вращение геометрии
+            triangle.rotation.x += 0.01;
+            triangle.rotation.y += 0.01;
+            
+            renderer.render(scene, camera);
+        }
+        animate();
     </script>
-  </body>
+</body>
 </html>

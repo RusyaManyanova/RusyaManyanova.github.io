@@ -42,6 +42,9 @@
     </a-scene>
 
     <script> 
+        // Проверка загрузки физического движка
+          console.log(AFRAME.components['physics']);
+      
         // Логика сбора объектов 
         AFRAME.registerComponent('collectible', { 
             init: function () { 
